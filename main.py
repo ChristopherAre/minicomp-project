@@ -7,7 +7,14 @@ def main():
 
     codigo = """
     entero x = 10;
-    x = x + 5;
+    entero limite = 20;
+
+    mientras (x <= limite) {
+        si (x != 15) {
+            imprimir x;
+        }
+        x = x + 2;
+    }
     """
 
     print("=" * 60)
@@ -23,6 +30,7 @@ def main():
 
     lexer = Lexer(codigo)
     tokens = lexer.analizar()
+
     print("[TOKENS]")
 
     for token in tokens:
