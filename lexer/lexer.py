@@ -11,23 +11,37 @@ class Lexer:
         self.tokens: List[Token] = []
 
         self.esquema_tokens = [
-                ('PR_ENTERO',  r'\bentero\b'),
-                ('NUMERO',     r'\d+'),
-                ('ID',         r'[a-zA-Z_][a-zA-Z0-9_]*'),
-                ('OP_ARIT',     r'[+\-*/]'),
-                ('ASIGNACION', r'='),
-                ('DELIM',       r'[();{}]'),
-                ('ESPACIO',     r'[ \t]+'),
-                ('NUEVA_LINEA', r'\n'),
-                ('ERROR',       r'.')
+            # Palabras reservadas
+            ('PR_ENTERO',    r'\bentero\b'),
+            ('PR_SI',        r'\bsi\b'),
+            ('PR_MIENTRAS',  r'\bmientras\b'),
+            ('PR_IMPRIMIR',  r'\bimprimir\b'),
 
-# Estudiante implementar 
-#                PR SI
-#                PR_MIENTRAS
-#                PR_IMPRIMIR
-#                OP_REL
-#                Y LOS TOKENS ADICIONALES PROPUESTOS 
+            # Operadores relacionales
+            # IMPORTANTE: deben ir antes de ASIGNACION
+            ('OP_REL',       r'==|!=|<=|>=|<|>'),
 
+            # Números
+            ('NUMERO',       r'\d+'),
+
+            # Identificadores
+            ('ID',           r'[a-zA-Z_][a-zA-Z0-9_]*'),
+
+            # Operadores aritméticos
+            ('OP_ARIT',      r'[+\-*/]'),
+
+            # Operador de asignación
+            ('ASIGNACION',   r'='),
+
+            # Delimitadores
+            ('DELIM',        r'[();{}]'),
+
+            # Espacios y saltos de línea
+            ('ESPACIO',      r'[ \t]+'),
+            ('NUEVA_LINEA',  r'\n'),
+
+            # Caracteres no reconocidos
+            ('ERROR',        r'.')
         ]
 
         self.regex_maestro = re.compile(
@@ -36,7 +50,6 @@ class Lexer:
                 for nombre, patron in self.esquema_tokens
             )
         )
-
 
     def analizar(self) -> List[Token]:
 
