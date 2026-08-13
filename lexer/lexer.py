@@ -11,23 +11,23 @@ class Lexer:
         self.tokens: List[Token] = []
 
         self.esquema_tokens = [
-                ('PR_ENTERO',  r'\bentero\b'),
-                ('NUMERO',     r'\d+'),
-                ('ID',         r'[a-zA-Z_][a-zA-Z0-9_]*'),
-                ('OP_ARIT',     r'[+\-*/]'),
-                ('ASIGNACION', r'='),
-                ('DELIM',       r'[();{}]'),
-                ('ESPACIO',     r'[ \t]+'),
-                ('NUEVA_LINEA', r'\n'),
-                ('ERROR',       r'.')
+            ('PR_ENTERO',    r'\bentero\b'),
+            ('PR_SI',        r'\bsi\b'),
+            ('PR_MIENTRAS',  r'\bmientras\b'),
+            ('PR_IMPRIMIR',  r'\bimprimir\b'),
 
-# Estudiante implementar 
-#                PR SI
-#                PR_MIENTRAS
-#                PR_IMPRIMIR
-#                OP_REL
-#                Y LOS TOKENS ADICIONALES PROPUESTOS 
+            ('OP_REL',       r'==|!=|<=|>=|<|>'),
 
+            ('NUMERO',       r'\d+'),
+            ('ID',           r'[a-zA-Z_][a-zA-Z0-9_]*'),
+            ('OP_ARIT',      r'[+\-*/]'),
+            ('ASIGNACION',   r'='),
+            ('DELIM',        r'[();{}]'),
+
+            ('ESPACIO',      r'[ \t]+'),
+            ('NUEVA_LINEA',  r'\n'),
+
+            ('ERROR',        r'.')
         ]
 
         self.regex_maestro = re.compile(
@@ -36,7 +36,6 @@ class Lexer:
                 for nombre, patron in self.esquema_tokens
             )
         )
-
 
     def analizar(self) -> List[Token]:
 
@@ -48,20 +47,15 @@ class Lexer:
             valor = match.group()
 
             if tipo == 'NUEVA_LINEA':
-
                 numero_linea += 1
 
             elif tipo == 'ESPACIO':
-
                 continue
 
             elif tipo == 'COMENTARIO':
-
-                # Los comentarios no generan tokens
                 continue
 
             elif tipo == 'ERROR':
-
                 raise RuntimeError(
                     f"[Error Lexico] "
                     f"Caracter inesperado '{valor}' "
@@ -69,7 +63,6 @@ class Lexer:
                 )
 
             else:
-
                 self.tokens.append(
                     Token(
                         tipo,
